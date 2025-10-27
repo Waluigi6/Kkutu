@@ -163,10 +163,6 @@
   let score = 0;
   let entriesList = [];
   mostRecentWord.textContent = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"][Math.floor(Math.random() * 26)]
-  async function isEnglishWord(word) {
-    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-    return res.ok;
-  }
   input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && input.value.trim() !== '') {
       const li = document.createElement('li');
@@ -175,9 +171,6 @@
       //refactored to allow easier addition of errors.
       if (input.value.includes(" ")){
         error.textContent = "No Spaces"
-      }
-      else if (!isEnglishWord(input.value)){
-        error.textContent = "Not A Valid Word"
       }
       else if (mostRecentWord.textContent[mostRecentWord.textContent.length - 1] != input.value[0]){
         error.textContent = "Wrong Letter"
