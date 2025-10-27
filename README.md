@@ -1,1 +1,1 @@
-This project was inspired by a game Jay showed me in class and I recreated it with my own skills + AI
+This project was inspired by a game Jaeheon Jeong who has a cool youtube channel called JayJeongEdits showed me in class and I recreated it with my own skills + AI and then I invited Jay but he hasn't done anything yet and James is looking at the code on the computer next to me and making the programs better. Hi James if you are looking at this 👋
