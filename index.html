@@ -168,7 +168,7 @@
    <main>
       <h1 id="mostRecentWord">~~~</h1> <!-- This is the most recent word-->
       <h2 id="secondRecentWord">~~~</h2> <!-- This is the most recent word-->
-      <input type="text" id="fname" placeholder="Type something and press Enter">
+      <input type="text" id="fname" placeholder= "First letter → previous word's last letter">
       <ul id="entries"></ul> <!-- where all entries will appear -->
 
 
@@ -206,11 +206,10 @@
     .then(response => response.json()) // parse JSON
     .then(data => {
       wordList = data; // now myList contains the JSON contents
-      const keys = Object.keys(wordList);
-      mostRecentWord.textContent = keys[Math.floor(Math.random() * keys.length)];
+      mostRecentWord.textContent = wordList[Math.floor(Math.random() * wordList.length)];
     })
     .catch(error => console.error('Error loading JSON:', error));
-  
+
   function animateTextChange(element, newText) {
     element.classList.remove('word-change');   // reset animation
     void element.offsetWidth;                  // trigger reflow
@@ -236,7 +235,7 @@
       else if (entriesList.includes(input.value)){
         error.textContent = "Duplicate Word"
       }
-      else if (!wordList.hasOwnProperty(input.value.toLowerCase())){
+      else if (!wordList.includes(input.value.toLowerCase())){
         error.textContent = "Not Valid English"
       }
       else
@@ -263,10 +262,9 @@
     }
   });
 </script>
-
    </main>
    <footer>
-       <p>&copy 2025 Waluigi6, Frenchythefry, 1orenzo, and JayJeongEdits</p>
+       <p>&copy 2025 Waluigi6, Frenchythefry, 1orenzo, and JayJeongEdits. Uses colors from catpuccin mocha theme</p>
    </footer>
 </body>
 </html>
