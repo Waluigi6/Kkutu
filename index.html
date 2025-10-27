@@ -162,7 +162,18 @@
   const error = document.getElementById('error');
   let score = 0;
   let entriesList = [];
-  mostRecentWord.textContent = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"][Math.floor(Math.random() * 26)]
+  let wordList = [];
+  fetch('words_dictionary.json') // JSON file in the same directory
+    .then(response => response.json()) // parse JSON
+    .then(data => {
+      wordList = data; // now myList contains the JSON contents
+      const keys = Object.keys(wordList);
+      mostRecentWord.textContent = keys[Math.floor(Math.random() * keys.length)];
+    })
+    .catch(error => console.error('Error loading JSON:', error));
+  //console.log(keys[Math.floor(Math.random() * keys.length)]);
+  //mostRecentWord.textContent = keys[Math.floor(Math.random() * keys.length)];
+  //["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"][Math.floor(Math.random() * 26)]
   input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && input.value.trim() !== '') {
       const li = document.createElement('li');
@@ -177,6 +188,9 @@
       }
       else if (entriesList.includes(input.value)){
         error.textContent = "Duplicate Word"
+      }
+      else if (!wordList.hasOwnProperty(input.value.toLowerCase())){
+        error.textContent = "Not Valid English"
       }
       else
       {
