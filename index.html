@@ -223,7 +223,8 @@
     .then(response => response.json()) // parse JSON
     .then(data => {
       wordList = data; // now myList contains the JSON contents
-      mostRecentWord.textContent = wordList[Math.floor(Math.random() * wordList.length)];
+        const keys = Object.keys(wordList);
+      mostRecentWord.textContent = keys[Math.floor(Math.random() * keys.length)];
     })
     .catch(error => console.error('Error loading JSON:', error));
 
@@ -256,7 +257,6 @@
 
       li.textContent = input.value;
 
-      entries[0] = 'hello';
 
       //refactored to allow easier addition of errors.
       if (input.value.includes(" ")){
@@ -271,7 +271,7 @@
       else if (entriesList.includes(input.value)){
         error.textContent = "Duplicate Word"
       }
-      else if (!wordList.includes(input.value.toLowerCase())){
+      else if (!wordList.hasOwnProperty(input.value.toLowerCase())){
         error.textContent = "Not Valid English"
       }
       else
