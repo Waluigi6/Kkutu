@@ -5,4 +5,4 @@ What if this whole project isn't real and it's just a way to grind contributions
 Todolist:
 - So uhh we gotta add some sort of timer to make it an actual game
 - We should consider this but maybe there could be a thingy so that it is multiple letters each round like in actual Kkutu
--Frenchy got some cool ChatGPT stuff he's bout to add in
+- Frenchy got some cool ChatGPT stuff he's bout to add in
