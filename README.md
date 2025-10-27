@@ -13,6 +13,6 @@ Todolist:
 
 Credits: I don't know how to spell you alls' github username I'll try to correct them later
 - Dillon/Waluigi6
-- James/FrenchyTheFry
+- James/Frenchythefry
 - Lawrence/TheLorenzo25
 - Jaeheon/JayJeong040414234
