@@ -1,12 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Page Title</title>
-   <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
-   <style>
-       /* Inline CSS can be added here */
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kkutu</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+  <style>
+      /* === GLOBAL === */
+      body {
+        font-family: 'Ubuntu', Arial, sans-serif;
+        background: linear-gradient(135deg, #1e1e2e, #313244);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        color: #cdd6f4;
+      }
+
+      /* === HEADER === */
+      header {
+        background: #45475a;
+        color: #cba6f7;
+        padding: 1rem 2rem;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(17, 17, 27, 0.5);
+      }
+
+      /* === MAIN === */
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      /* === TITLES === */
+      h1, h2 {
+        margin: 0.5rem 0;
+        color: #89b4fa;
+      }
+
+      #mostRecentWord {
+        font-size: 3rem;
+        color: #94e2d5;
+        text-shadow: 2px rgba(148, 226, 213, 0.25);
+      }
+
+      #secondRecentWord {
+        font-size: 2rem;
+        color: #89b4fa;
+      }
+
+      /* === INPUT BOX === */
+      #fname {
+        font-family: inherit;
+        width: 60%;
+        max-width: 400px;
+        padding: 0.8rem 1rem;
+        font-size: 1.1rem;
+        background: #313244;
+        border: 2px solid #94e2d5;
+        border-radius: 12px;
+        color: #cdd6f4;
+        outline: none;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      #fname:focus {
+        border-color: #89b4fa;
+        box-shadow: 0 0 10px rgba(137, 180, 250, 0.5);
+        background: #45475a;
+      }
+
+      /* === SCORE DISPLAY === */
+      #scoreDisplay {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        background: #313244;
+        color: #a6e3a1;
+        padding: 0.5rem 1.2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(17, 17, 27, 0.4);
+      }
+
+      /* === ERROR MESSAGE === */
+      #error {
+        color: #f38ba8;
+        font-weight: bold;
+        margin-top: 0.8rem;
+        min-height: 1.5em;
+      }
+
+      /* === ENTRIES LIST === */
+      #entries {
+        height: 180px;
+        list-style: none;
+        padding: 0;
+        overflow-y: auto;
+        margin-top: 2rem;
+        width: 80%;
+        max-width: 200px;
+      }
+
+      #entries li {
+        background: #313244;
+        margin: 0.5rem 0;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(17, 17, 27, 0.3);
+        font-size: 1.1rem;
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+
+      /* === FOOTER === */
+      footer {
+        background: #1e1e2e;
+        color: #6c7086;
+        text-align: center;
+        padding: 0.3rem;
+        font-size: 0.9rem;
+      }
+
+
    </style>
    <script src="script.js"></script> <!-- Link to external JavaScript -->
 </head>
@@ -18,13 +137,11 @@
       <h1 id="mostRecentWord">~~~</h1> <!-- This is the most recent word-->
       <h2 id="secondRecentWord">~~~</h2> <!-- This is the most recent word-->
       <input type="text" id="fname" placeholder="Type something and press Enter">
-      <h1 id="error" style="color:red"></h1>
       <ul id="entries"></ul> <!-- where all entries will appear -->
 
 
-       <p id ="scoreDisplay">This is a paragraph.</p>
-       <p>This is another paragraph.</p>
-
+       <p id ="scoreDisplay">0/0</p>
+      <h1 id="error" style="color:red"></h1>
               <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RNHLEQX9J1"></script>
 <script>
@@ -45,46 +162,42 @@
   const error = document.getElementById('error');
   let score = 0;
   let entriesList = [];
-  mostRecentWord.textContent = ["a", "b", "c", "d", "Lawrence", "f", "Jay Jeong", "h", "i", "j", "k", "l", "m", "Dillon", "o", "p", "q", "r", "James", "t", "u", "v", "w", "x", "y", "z"][Math.floor(Math.random() * 26)]
-
+  mostRecentWord.textContent = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"][Math.floor(Math.random() * 26)]
+  async function isEnglishWord(word) {
+    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    return res.ok;
+  }
   input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && input.value.trim() !== '') {
       const li = document.createElement('li');
       li.textContent = input.value;
       entries[0] = 'hello';
-      if (entriesList.includes(input.value)){
+      //refactored to allow easier addition of errors.
+      if (input.value.includes(" ")){
+        error.textContent = "No Spaces"
+      }
+      else if (!isEnglishWord(input.value)){
+        error.textContent = "Not A Valid Word"
+      }
+      else if (mostRecentWord.textContent[mostRecentWord.textContent.length - 1] != input.value[0]){
+        error.textContent = "Wrong Letter"
+      }
+      else if (entriesList.includes(input.value)){
         error.textContent = "Duplicate Word"
       }
-      else if(mostRecentWord.textContent[mostRecentWord.textContent.length - 1] == input.value[0])
+      else
       {
         secondRecentWord.textContent = mostRecentWord.textContent
         mostRecentWord.textContent = input.value
         score += mostRecentWord.textContent.length
-        scoreDisplay.textContent = score
+        scoreDisplay.textContent = score + "/" + (entriesList.length + 1);
         error.textContent = "            "
-        entries.appendChild(li);
+        entries.prepend(li);
         entriesList.push(input.value);
         console.log(entriesList);
       }
-      else{
-        error.textContent = "Wrong Letter"
-      }
 
     input.value = ''; // clear box
-       /*
-
-       HI DILLON
-       -1orenzo
-      __    _
-    /    \ //
-    \ __ ///
-  //|   |//
- // | _ |
-    //  \\
-   //    \\
-
-
-       */
 
     }
   });
@@ -92,7 +205,7 @@
 
    </main>
    <footer>
-       <p>Footer content goes here.</p>
+       <p>&copy 2025 Waluigi6, Frenchythefry, 1orenzo, and Jaejeongedits</p>
    </footer>
 </body>
 </html>
