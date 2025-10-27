@@ -110,9 +110,20 @@
         color: #a6e3a1;
         padding: 0.5rem 1.2rem;
         border-radius: 10px;
+        text-align: center;
+        width: 50px;
         box-shadow: 0 2px 8px rgba(17, 17, 27, 0.4);
       }
-
+      #timerDisplay {
+        margin-top: 0rem;
+        font-size: 1.3rem;
+        background: #313244;
+        color: #a6e3a1;
+        width: 50px;
+        padding: 0.5rem 1.2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(17, 17, 27, 0.4);
+      }
       /* === ERROR MESSAGE === */
       #error {
         color: #f38ba8;
@@ -173,6 +184,7 @@
 
 
        <p id ="scoreDisplay">0/0</p>
+       <p id ="timerDisplay">60</p>
       <h1 id="error" style="color:red"></h1>
               <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RNHLEQX9J1"></script>
@@ -195,10 +207,15 @@
 
   const scoreDisplay = document.getElementById('scoreDisplay');
 
-  const error = document.getElementById('error');
+  const timerDisplay = document.getElementById('timerDisplay');
+  let timerValue = 60; //<- UPDATE THIS TO CHANGE TIME GIVEN!!!!
 
+  const error = document.getElementById('error');
+  
   let score = 0;
 
+  let isDone = false;
+  
   let entriesList = [];
   let wordList = [];
   
@@ -216,8 +233,24 @@
     element.textContent = newText;            // change text
     element.classList.add('word-change');     // start animation
   }
+
+  async function iterateTimer(){
+    while (timerValue > 0){
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      timerDisplay.textContent = timerValue -= 1;
+      if (timerValue < 10){
+        timerDisplay.style.color = "#f38ba8";
+      }
+    }
+    isDone = true;
+  }
+
+  iterateTimer();
   
   input.addEventListener('keydown', function(event) {
+    if (isDone){
+      return;
+    }
     if (event.key === 'Enter' && input.value.trim() !== '') {
       const li = document.createElement('li');
 
@@ -228,6 +261,9 @@
       //refactored to allow easier addition of errors.
       if (input.value.includes(" ")){
         error.textContent = "No Spaces"
+      }
+      else if (input.value.length < 3){
+        error.textContent = "Too short"
       }
       else if (mostRecentWord.textContent[mostRecentWord.textContent.length - 1] != input.value[0]){
         error.textContent = "Wrong Letter"
