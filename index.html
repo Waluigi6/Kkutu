@@ -321,7 +321,7 @@
 
   async function iterateTimer(){
       while (timerValue > 0){
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 1000));
           timerDisplay.textContent = timerValue -= 1;
           if (timerValue < 10){
             timerDisplay.style.color = "#f38ba8";
