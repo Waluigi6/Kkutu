@@ -235,6 +235,14 @@
     element.classList.add('word-change');     // start animation
   }
 
+  function printOutFull(){
+    let ret = entriesList[0].charAt(0);
+    for (let i = 0; i < entriesList.length; i++){
+      ret += entriesList[i].substring(1)
+    }
+    return ret;
+  }
+  
   async function iterateTimer(){
     while (timerValue > 0){
       await new Promise(resolve => setTimeout(resolve, 1000));
