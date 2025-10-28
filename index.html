@@ -134,7 +134,7 @@
 
       /* === ENTRIES LIST === */
       #entries {
-        height: 500px;
+        height: 180px;
         list-style: none;
         padding: 0;
         overflow-y: auto;
@@ -215,7 +215,8 @@
   let score = 0;
 
   let isDone = false;
-  
+  let hasStarted = false;
+
   let entriesList = [];
   let wordList = [];
   
@@ -253,9 +254,12 @@
     isDone = true;
   }
 
-  iterateTimer();
   
   input.addEventListener('keydown', function(event) {
+    if (!hasStarted){
+      iterateTimer();
+      hasStarted = true;
+    }
     if (isDone){
       return;
     }
